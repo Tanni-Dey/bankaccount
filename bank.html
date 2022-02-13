@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Bank page</title>
+</head>
+
+<body>
+    <header>
+        <h1 class="text-5xl text-center font-semibold mt-16">Let's get some <span class="text-orange-500">Moooney</span>
+        </h1>
+    </header>
+    <main class="w-3/4 mx-auto">
+        <section>
+            <div class="grid grid-cols-3 gap-4 mt-8 text-white">
+                <div class=" bg-amber-300 rounded p-8">
+                    <h3 class="text-3xl">Deposit</h3>
+                    <h4 class="text-5xl">$<span id="deposit-total">00</span></h4>
+                </div>
+                <div class="bg-lime-500 rounded p-8">
+                    <h3 class="text-3xl">Withdraw</h3>
+                    <h4 class="text-5xl">$<span id="withdraw-total">00</span></h4>
+                </div>
+                <div class="bg-violet-600 rounded p-8">
+                    <h3 class="text-3xl">Balance</h3>
+                    <h4 class="text-5xl">$<span id="balance-total">1500</span></h4>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="grid grid-cols-2 gap-4 mt-8">
+                <div action="" class="bg-orange-200 rounded p-8">
+                    <h2 class="text-3xl">Please Deposit</h2>
+                    <input id="deposit-input" placeholder="$ amount" type="number"
+                        class="block my-5 p-2 w-3/4 rounded border border-gray-400 focus:outline-orange-500">
+                    <button id="deposit-submit"
+                        class="bg-orange-500 py-3 px-5 text-white font-semibold rounded">Deposit</button>
+                </div>
+                <div action="" class="bg-pink-200 rounded p-8">
+                    <h2 class="text-3xl">Please Withdraw</h2>
+                    <input id="withdraw-input" placeholder="$ amount" type="number"
+                        class="block my-5 p-2 w-3/4 rounded border border-gray-400 focus:outline-orange-500">
+                    <button id="withdraw-submit"
+                        class="bg-orange-500 py-3 px-5 text-white font-semibold rounded">Withdraw</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/bank.js"></script>
+
+    <script>
+        function getInput(inputID) {
+            const input = document.getElementById(inputID);
+            const total = parseFloat(input.value);
+            input.value = '';
+            return total;
+        }
+        function setAmount(totalId, inputAmount) {
+            const previousTotal = document.getElementById(totalId);
+            previousTotal.innerText = parseFloat(previousTotal.innerText) + inputAmount;
+        }
+        function updateBalance(field, isAdd) {
+            const previousBalance = document.getElementById('balance-total');
+            if (isAdd == true) {
+                previousBalance.innerText = parseFloat(previousBalance.innerText) + field;
+            }
+            else {
+                previousBalance.innerText = parseFloat(previousBalance.innerText) - field;
+            }
+        }
+        document.getElementById('deposit-submit').addEventListener('click', function () {
+            const inputDepositeAmount = getInput('deposit-input');
+            if (inputDepositeAmount > 0) {
+                setAmount('deposit-total', inputDepositeAmount);
+                updateBalance(inputDepositeAmount, true);
+            }
+            else {
+                alert('not valid number')
+            }
+        })
+        document.getElementById('withdraw-submit').addEventListener('click', function () {
+            const inputWithdrawAmount = getInput('withdraw-input');
+            const previousBalance = parseFloat(document.getElementById('balance-total').innerText);
+            if (inputWithdrawAmount > 0) {
+                if (previousBalance >= inputWithdrawAmount) {
+                    setAmount('withdraw-total', inputWithdrawAmount);
+                    updateBalance(inputWithdrawAmount, false);
+                }
+                else {
+                    alert('Not available balance in your account');
+                }
+            }
+
+            else {
+                alert('Not valid number')
+            }
+        })
+    </script>
+</body>
+
+</html>
