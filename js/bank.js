@@ -5,6 +5,9 @@ document.getElementById('user-submit').addEventListener('click', function () {
         window.location.href = 'bank.html'
         // console.log("dfgh");
     }
+    else {
+        alert('Invalid Email and Password');
+    }
 })
 
 
